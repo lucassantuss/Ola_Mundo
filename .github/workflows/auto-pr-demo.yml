@@ -1,9 +1,9 @@
-name: Demo to test create automatic PR
+name: Demo to create automatic PR
 
 on:
   push:
     branches:
-      - hom
+      - main
 
 jobs:
   createPullRequest:
@@ -25,8 +25,8 @@ jobs:
         id: demo
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: "main"
-          base: hom
+          branch: "dev"
+          base: main
           title: "demo for auto PR"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>
