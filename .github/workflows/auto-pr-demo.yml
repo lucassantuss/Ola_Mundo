@@ -34,18 +34,15 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           delete-branch: false
         
-      - name: Debug Pull Request
-        run: echo "Pull request number: ${{ steps.demo.outputs['pull-request-number'] }}"
-        
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ steps.demo.outputs['pull-request-number'] }}
+          number: ${{ steps.demo.outputs.pull-request-number }}
 
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ steps.demo.outputs['pull-request-number'] }}
+          number: ${{ steps.demo.outputs.pull-request-number }}
           method: squash
