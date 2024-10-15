@@ -31,16 +31,22 @@ jobs:
             Descrição do PR criado automaticamente - Teste
           token: ${{ secrets.GITHUB_TOKEN }}
           delete-branch: false
-          
+      
+      - name: Get Pull Request Number
+        id: get-pr-number
+        run: |
+    		PR_NUMBER=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }}&state=open" | jq '.[0].number')
+    		echo "pull_request_number=$PR_NUMBER" >> $GITHUB_ENV
+    
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_DEMO }}
-          number: ${{ steps.demo.outputs.pull-request-number }}
+          number: ${{ env.pull_request_number }}
 
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ steps.demo.outputs.pull-request-number }}
+          number: ${{ env.pull_request_number }}
           method: squash
