@@ -1,9 +1,9 @@
-name: Demo to create automatic PR
+name: Demo to test create automatic PR
 
 on:
   push:
     branches:
-      - dev
+      - hom
 
 jobs:
   createPullRequest:
@@ -26,7 +26,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: "main"
-          base: dev
+          base: hom
           title: "demo for auto PR"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>
@@ -35,6 +35,7 @@ jobs:
           delete-branch: false
         
       - name: Approve Pull Request
+        if: steps.demo.outputs.pull-request-number != ''
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
