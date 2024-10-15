@@ -1,0 +1,49 @@
+name: Demonstração para criação de PR automático
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  updateAuthor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out code
+        uses: actions/checkout@v2
+
+      - name: extract git commit data
+        uses: rlespinasse/git-commit-data-action@v1.x
+
+      - name: Update author information
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+
+      - name: Create Pull Request
+        id: demo
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: "dev"
+          base: main
+          title: "Demonstração para Auto PR"
+          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          body:
+            Descrição do PR criado automaticamente
+          token: ${{ secrets.GITHUB_TOKEN }}
+          delete-branch: false
+
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.APPROVER_DEMO }}
+          number: ${{ steps.demo.outputs.pull-request-number }}
+
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.demo.outputs.pull-request-number }}
+          method: squash
+
+      - name: Update author information again
+        run: echo Lucassantuss > AUTHOR
