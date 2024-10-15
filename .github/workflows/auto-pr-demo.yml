@@ -34,8 +34,8 @@ jobs:
             This is to show automatic PR creation
           token: ${{ secrets.GITHUB_TOKEN }}
           delete-branch: false
-
-      - name: Debug PR
+          
+      - name: Debug Pull Request
         run: echo "Pull request number: ${{ steps.demo.outputs.pull-request-number }}"
 
       - name: Approve Pull Request
