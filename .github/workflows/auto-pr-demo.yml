@@ -3,7 +3,7 @@ name: Demonstração para criação de PR automático
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   updateAuthor:
@@ -22,8 +22,8 @@ jobs:
         id: demo
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: "main"
-          base: dev
+          branch: "dev"
+          base: main
           title: "Demonstração Auto PR - Hello World"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
