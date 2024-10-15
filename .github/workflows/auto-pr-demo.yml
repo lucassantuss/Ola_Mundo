@@ -1,18 +1,18 @@
-name: Demonstração para criação de PR automático
+name: demonstração para criação de PR automático
 
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   updateAuthor:
     runs-on: ubuntu-latest
     steps:
-      - name: checking out code
+      - name: Checking out code
         uses: actions/checkout@v2
 
-      - name: extract git commit data
+      - name: Extract git commit data
         uses: rlespinasse/git-commit-data-action@v1.x
 
       - name: Update author information
@@ -22,9 +22,9 @@ jobs:
         id: demo
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: "dev"
-          base: main
-          title: "Demonstração para Auto PR"
+          branch: "main"
+          base: dev
+          title: "demonstração Auto PR"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           body:
@@ -44,6 +44,3 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.demo.outputs.pull-request-number }}
           method: squash
-
-      - name: Update author information again
-        run: echo Lucassantuss > AUTHOR
