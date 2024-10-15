@@ -32,18 +32,20 @@ jobs:
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           body:
             This is to show automatic PR creation
-          token: ${{ secrets.AUTHOR_DEMO }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          assignees: lucassantuss
+          reviewers: lucassantuss
           delete-branch: false
 
       - name: Approve Pull Request
-        uses: juliangruber/approve-pull-request-action@v1
+        uses: juliangruber/approve-pull-request-action@v2.x.x
         with:
-          github-token: ${{ secrets.AUTHOR_DEMO }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.demo.outputs.pull-request-number }}
 
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
         with:
-          github-token: ${{ secrets.AUTHOR_DEMO }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.demo.outputs.pull-request-number }}
           method: squash
