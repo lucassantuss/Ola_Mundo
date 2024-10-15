@@ -1,4 +1,4 @@
-name: demonstração para criação de PR automático
+name: Demonstração para criação de PR automático
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         with:
           branch: "main"
           base: dev
-          title: "demonstração Auto PR"
+          title: "Demonstração Auto PR - Hello World"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           body:
@@ -35,7 +35,7 @@ jobs:
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.APPROVER_DEMO }}
           number: ${{ steps.demo.outputs.pull-request-number }}
 
       - name: Merge Pull Request
